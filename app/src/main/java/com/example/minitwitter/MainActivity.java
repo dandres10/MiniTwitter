@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.buttonLogin:
             break;
             case R.id.textViewGoSingUp:
-                goTOSingUp();
+                goToSingUp();
                 break;
         }
     }
 
-    private void goTOSingUp() {
+    private void goToSingUp() {
         Intent i = new Intent(MainActivity.this, SingUpActivity.class);
         startActivity(i);
     }
