@@ -47,25 +47,25 @@
         android:textColorHighlight="@color/colorAzulDark"
         android:textColorHint="@color/colorAzulDark"
         android:textColorLink="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
         app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonSignUp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@android:color/white"
         android:text="@string/btn_singup"
         android:textColor="@color/colorAzul"
-        app:layout_constraintBottom_toTopOf="@+id/textViewGoSingUp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewGoLogin"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <TextView
-        android:id="@+id/textViewGoSingUp"
+        android:id="@+id/textViewGoLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -73,9 +73,9 @@
         android:text="@string/text_go_login"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
-        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintEnd_toEndOf="@+id/buttonSignUp"
+        app:layout_constraintStart_toStartOf="@+id/buttonSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
 
     <EditText
         android:id="@+id/editTextUsername"

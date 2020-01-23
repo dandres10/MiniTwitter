@@ -64,14 +64,14 @@
         android:backgroundTint="@android:color/white"
         android:text="@string/btn_login"
         android:textColor="@color/colorAzul"
-        app:layout_constraintBottom_toTopOf="@+id/textViewGoSingUp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewGoSignUp"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <TextView
-        android:id="@+id/textViewGoSingUp"
+        android:id="@+id/textViewGoSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
