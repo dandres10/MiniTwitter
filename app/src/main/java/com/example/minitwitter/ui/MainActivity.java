@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             //destruyendo este activity para no poder volver
                             finish();
                         }else{
-                                Toast.makeText(MainActivity.this,"Algo fue mal rebice sus datos de acceso.",Toast.LENGTH_LONG);
+                                Toast.makeText(MainActivity.this,"Algo fue mal rebice sus datos de acceso.",Toast.LENGTH_LONG).show();
                         }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseAuth> call, Throwable t) {
-                    Toast.makeText(MainActivity.this,"Problemas de conexion",Toast.LENGTH_LONG);
+                    Toast.makeText(MainActivity.this,"Problemas de conexion",Toast.LENGTH_LONG).show();
                 }
             });
 
