@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             //destruyendo este activity para no poder volver
                             finish();
                         }else{
-                                Toast.makeText(MainActivity.this,"Algo fue mal rebice sus datos de acceso.",Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this,"Algo fue mal revise sus datos de acceso.",Toast.LENGTH_LONG).show();
                         }
                 }
 
