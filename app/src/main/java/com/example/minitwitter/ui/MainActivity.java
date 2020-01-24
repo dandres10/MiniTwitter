@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     etPassword.setError("La contraseña es requerida");
         }else{
             RequestLogin requestLogin = new RequestLogin(email,password);
+
+
             Call<ResponseAuth> call = miniTwitterService.doLogin(requestLogin);
             call.enqueue(new Callback<ResponseAuth>() {
                 @Override
