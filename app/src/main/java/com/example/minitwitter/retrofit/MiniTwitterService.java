@@ -6,6 +6,7 @@ import com.example.minitwitter.retrofit.response.ResponseAuth;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+
 import retrofit2.http.POST;
 
 public interface MiniTwitterService {
@@ -15,4 +16,6 @@ public interface MiniTwitterService {
 
     @POST("auth/signup")
     Call<ResponseAuth> doSignUp(@Body RequestSignup requestSignup);
+
+
 }

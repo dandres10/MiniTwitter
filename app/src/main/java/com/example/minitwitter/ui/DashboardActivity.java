@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 
+import com.example.minitwitter.TweetListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,12 @@ public class DashboardActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.nav_view);
         navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentcontainer,new TweetListFragment())
+                .commit();
 
 
 

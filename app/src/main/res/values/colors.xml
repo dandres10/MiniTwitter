@@ -5,6 +5,7 @@
     <color name="colorAccent">@color/colorAzul</color>
     <color name="colorAzul">#0F7EDD</color>
     <color name="colorAzulDark">#0A467C</color>
+    <color name="pink">#e0245d</color>
 
 
 </resources>
