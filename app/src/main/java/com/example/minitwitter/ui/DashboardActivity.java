@@ -52,9 +52,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragmentcontainer,new TweetListFragment())
+                .add(R.id.fragmentcontainer, new TweetListFragment())
                 .commit();
-
 
 
     }

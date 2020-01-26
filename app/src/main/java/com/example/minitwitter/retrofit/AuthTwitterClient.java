@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthTwitterClient {
     private static AuthTwitterClient instance = null;
-    private AuthTwitterService miniTwitterService;
+    private AuthTwitterService authTwitterService;
     private Retrofit retrofit;
 
     public AuthTwitterClient() {
@@ -25,7 +25,7 @@ public class AuthTwitterClient {
                 .client(cliente)
                 .build();
 
-        miniTwitterService = retrofit.create(AuthTwitterService.class);
+        authTwitterService = retrofit.create(AuthTwitterService.class);
     }
 
 
@@ -39,7 +39,7 @@ public class AuthTwitterClient {
 
 
     public AuthTwitterService getAuthTwitterService() {
-        return miniTwitterService;
+        return authTwitterService;
     }
 
 }
