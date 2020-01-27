@@ -8,7 +8,7 @@
     tools:context=".ui.MainActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewClose"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginTop="5dp"
@@ -33,10 +33,10 @@
         android:textColorHint="@color/colorAzulDark"
         android:textColorLink="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewClose"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintStart_toStartOf="@+id/imageViewClose"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewClose" />
 
     <EditText
         android:id="@+id/editTextPassword"

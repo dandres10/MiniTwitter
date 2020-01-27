@@ -84,37 +84,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             etEmail.setError("El email es requerido.");
-        }else if(password.isEmpty()){
-                    etPassword.setError("La contraseña es requerida");
-        }else{
-            RequestLogin requestLogin = new RequestLogin(email,password);
+        } else if (password.isEmpty()) {
+            etPassword.setError("La contraseña es requerida");
+        } else {
+            RequestLogin requestLogin = new RequestLogin(email, password);
 
 
             Call<ResponseAuth> call = miniTwitterService.doLogin(requestLogin);
             call.enqueue(new Callback<ResponseAuth>() {
                 @Override
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
-                        if (response.isSuccessful()){
-                            Toast.makeText(MainActivity.this,"Sesion iniciada correctamente.",Toast.LENGTH_LONG);
+                    if (response.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, "Sesion iniciada correctamente.", Toast.LENGTH_LONG).show();
 
-                            storeVariablesResponse(response);
-
-
-                            Intent i = new Intent(MainActivity.this,DashboardActivity.class);
-                            startActivity(i);
+                        storeVariablesResponse(response);
 
 
-                            finish();
-                        }else{
-                                Toast.makeText(MainActivity.this,"Algo fue mal revise sus datos de acceso.",Toast.LENGTH_LONG).show();
-                        }
+                        Intent i = new Intent(MainActivity.this, DashboardActivity.class);
+                        startActivity(i);
+
+
+                        finish();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Algo fue mal revise sus datos de acceso.", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseAuth> call, Throwable t) {
-                    Toast.makeText(MainActivity.this,"Problemas de conexion",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Problemas de conexion", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -124,19 +124,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void storeVariablesResponse(Response<ResponseAuth> response){
+    private void storeVariablesResponse(Response<ResponseAuth> response) {
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_TOKEN,response.body().getToken());
+                .setSomeStringValue(Constantes.PREF_TOKEN, response.body().getToken());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_USERNAME,response.body().getUsername());
+                .setSomeStringValue(Constantes.PREF_USERNAME, response.body().getUsername());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_EMAIL,response.body().getEmail());
+                .setSomeStringValue(Constantes.PREF_EMAIL, response.body().getEmail());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_PHOTOURL,response.body().getPhotoUrl());
+                .setSomeStringValue(Constantes.PREF_PHOTOURL, response.body().getPhotoUrl());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_CREATED,response.body().getCreated());
+                .setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
         SharedPreferencesManager
-                .setSomeBooleanValue(Constantes.PREF_ACTIVE,response.body().getActive());
+                .setSomeBooleanValue(Constantes.PREF_ACTIVE, response.body().getActive());
     }
 
     private void goToSingUp() {
