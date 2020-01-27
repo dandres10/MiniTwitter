@@ -5,7 +5,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-import com.example.minitwitter.TweetListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;

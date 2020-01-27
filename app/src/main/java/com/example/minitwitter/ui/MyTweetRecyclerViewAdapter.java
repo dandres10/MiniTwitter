@@ -1,4 +1,4 @@
-package com.example.minitwitter;
+package com.example.minitwitter.ui;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
 import com.example.minitwitter.retrofit.response.Like;
