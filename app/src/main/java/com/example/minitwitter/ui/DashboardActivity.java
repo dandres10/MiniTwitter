@@ -3,8 +3,12 @@ package com.example.minitwitter.ui;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
+import com.example.minitwitter.common.Constantes;
+import com.example.minitwitter.common.SharedPreferencesManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DashboardActivity extends AppCompatActivity {
     FloatingActionButton fab;
-
+    ImageView ivAvatar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,6 +50,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         fab = findViewById(R.id.fab);
+        ivAvatar = findViewById(R.id.imageViewToolbarPhoto);
 
         getSupportActionBar().hide();
 
@@ -65,6 +70,14 @@ public class DashboardActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(),"NuevoTweetDialogFragment");
             }
         });
+
+        String photoUrl = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_PHOTOURL);
+
+        if (!photoUrl.isEmpty()){
+            Glide.with(this)
+                    .load(Constantes.API_MINITWITTER_FILES_URL+photoUrl)
+                    .into(ivAvatar);
+        }
 
 
     }
