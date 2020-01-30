@@ -61,6 +61,10 @@ public class NuevoTweetDialogFragment extends DialogFragment implements View.OnC
             Glide.with(getActivity())
                     .load(Constantes.API_MINITWITTER_FILES_URL + photoUrl)
                     .into(ivAvatar);
+        }else{
+            Glide.with(this)
+                    .load(Constantes.FOTO)
+                    .into(ivAvatar);
         }
 
 

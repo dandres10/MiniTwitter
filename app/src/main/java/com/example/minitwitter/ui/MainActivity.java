@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferencesManager
                 .setSomeStringValue(Constantes.PREF_EMAIL, response.body().getEmail());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_PHOTOURL, response.body().getPhotoUrl());
+                .setSomeStringValue(Constantes.PREF_PHOTOURL,response.body().getPhotoUrl());
         SharedPreferencesManager
                 .setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
         SharedPreferencesManager
