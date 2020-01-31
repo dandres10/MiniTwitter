@@ -1,5 +1,8 @@
 package com.example.minitwitter.ui;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -15,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.common.SharedPreferencesManager;
+import com.example.minitwitter.data.TweetViewModel;
 import com.example.minitwitter.retrofit.response.Like;
 import com.example.minitwitter.retrofit.response.Tweet;
 
@@ -26,12 +30,14 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
     private Context ctx;
     private List<Tweet> mValues;
     String username;
+    TweetViewModel tweetViewModel;
 
 
     public MyTweetRecyclerViewAdapter(Context contexto, List<Tweet> items) {
         mValues = items;
         ctx = contexto;
         username = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_USERNAME);
+        tweetViewModel = ViewModelProviders.of((FragmentActivity) ctx).get(TweetViewModel.class);
     }
 
     @Override
@@ -47,7 +53,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
         if (mValues != null) {
             holder.mItem = mValues.get(position);
 
-            holder.tvUsername.setText(holder.mItem.getUser().getUsername());
+            holder.tvUsername.setText("@"+holder.mItem.getUser().getUsername());
             holder.tvMessage.setText(holder.mItem.getMensaje());
             holder.tvLikesCount.setText(String.valueOf(holder.mItem.getLikes().size()));
 
@@ -57,6 +63,19 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
                         .load("https://www.minitwitter.com/apiv1/uploads/photos/" + photo)
                         .into(holder.ivAvatar);
             }
+
+            Glide.with(ctx)
+                    .load(R.drawable.ic_like)
+                    .into(holder.ivLike);
+            holder.tvLikesCount.setTextColor(ctx.getResources().getColor(android.R.color.black));
+            holder.tvLikesCount.setTypeface(null, Typeface.NORMAL);
+
+            holder.ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tweetViewModel.likeTweet(holder.mItem.getId());
+                }
+            });
 
             for (Like like : holder.mItem.getLikes()) {
                 if (like.getUsername().equals(username)) {

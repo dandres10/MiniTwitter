@@ -88,4 +88,43 @@ public class TweetRepository {
     }
 
 
+    public void likeTweet(final int idTweet) {
+
+        Call<Tweet> call = authTwitterService.likeTweet(idTweet);
+        call.enqueue(new Callback<Tweet>() {
+            @Override
+            public void onResponse(Call<Tweet> call, Response<Tweet> response) {
+                if (response.isSuccessful()) {
+                    List<Tweet> listaClonada = new ArrayList<>();
+
+                    for (int i = 0; i < allTweets.getValue().size(); i++) {
+
+                        if (allTweets.getValue().get(i).getId() == idTweet) {
+                            /*
+                            si hemos encontrado en la lista original
+                            el elemento sobre el que hemos hecho like,
+                            introducimos el elemento que nos ha llegado del
+                            servidor
+                            * */
+                            listaClonada.add(response.body());
+                        } else {
+                            listaClonada.add(new Tweet(allTweets.getValue().get(i)));
+                        }
+                    }
+
+                    allTweets.setValue(listaClonada);
+                } else {
+                    Toast.makeText(MyApp.getContexto(), "Algo a ido mal intentelo de nuevo", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tweet> call, Throwable t) {
+                Toast.makeText(MyApp.getContexto(), "Error en la conexion.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 }

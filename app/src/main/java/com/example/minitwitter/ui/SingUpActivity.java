@@ -109,7 +109,7 @@ public class SingUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 @Override
                 public void onFailure(Call<ResponseAuth> call, Throwable t) {
-                        Toast.makeText(SingUpActivity.this,"Error la conexión",Toast.LENGTH_LONG).show();
+                    Toast.makeText(SingUpActivity.this, "Error la conexión", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -123,19 +123,19 @@ public class SingUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void storeVariablesResponse(Response<ResponseAuth> response){
+    private void storeVariablesResponse(Response<ResponseAuth> response) {
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_TOKEN,response.body().getToken());
+                .setSomeStringValue(Constantes.PREF_TOKEN, response.body().getToken());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_USERNAME,response.body().getUsername());
+                .setSomeStringValue(Constantes.PREF_USERNAME, response.body().getUsername());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_EMAIL,response.body().getEmail());
+                .setSomeStringValue(Constantes.PREF_EMAIL, response.body().getEmail());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_PHOTOURL,response.body().getPhotoUrl());
+                .setSomeStringValue(Constantes.PREF_PHOTOURL, response.body().getPhotoUrl());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_CREATED,response.body().getCreated());
+                .setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
         SharedPreferencesManager
-                .setSomeBooleanValue(Constantes.PREF_ACTIVE,response.body().getActive());
+                .setSomeBooleanValue(Constantes.PREF_ACTIVE, response.body().getActive());
     }
 
 }
