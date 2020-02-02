@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 
 import com.example.minitwitter.R;
@@ -27,17 +28,28 @@ public class DashboardActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+            Fragment f = null;
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-
-                    return true;
+                    f = TweetListFragment.newInstance(Constantes.TWEET_LIST_ALL);
+                    fab.show();
+                    break;
                 case R.id.navigation_tweets_like:
-
-                    return true;
+                    f = TweetListFragment.newInstance(Constantes.TWEET_LIST_FAVS);
+                    fab.hide();
+                    break;
                 case R.id.navigation_profile:
+                    fab.hide();
+                    break;
+            }
 
-                    return true;
+            if (f != null){
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentcontainer, f)
+                        .commit();
+                return true;
             }
 
 
@@ -60,24 +72,24 @@ public class DashboardActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragmentcontainer, new TweetListFragment())
+                .add(R.id.fragmentcontainer, TweetListFragment.newInstance(Constantes.TWEET_LIST_ALL))
                 .commit();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 NuevoTweetDialogFragment dialog = new NuevoTweetDialogFragment();
-                dialog.show(getSupportFragmentManager(),"NuevoTweetDialogFragment");
+                dialog.show(getSupportFragmentManager(), "NuevoTweetDialogFragment");
             }
         });
 
         String photoUrl = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_PHOTOURL);
 
-        if (!photoUrl.isEmpty()){
+        if (!photoUrl.isEmpty()) {
             Glide.with(this)
-                    .load(Constantes.API_MINITWITTER_FILES_URL+photoUrl)
+                    .load(Constantes.API_MINITWITTER_FILES_URL + photoUrl)
                     .into(ivAvatar);
-        }else{
+        } else {
             Glide.with(this)
                     .load(Constantes.FOTO)
                     .into(ivAvatar);

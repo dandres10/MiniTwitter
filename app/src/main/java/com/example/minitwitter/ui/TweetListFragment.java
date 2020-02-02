@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.minitwitter.R;
+import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.TweetViewModel;
 import com.example.minitwitter.retrofit.response.Tweet;
 
@@ -25,10 +26,8 @@ import java.util.List;
 
 public class TweetListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+
+    private int tweetListType = 1;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     MyTweetRecyclerViewAdapter adapater;
@@ -39,12 +38,11 @@ public class TweetListFragment extends Fragment {
     public TweetListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static TweetListFragment newInstance(int columnCount) {
+
+    public static TweetListFragment newInstance(int tweetListType) {
         TweetListFragment fragment = new TweetListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(Constantes.TWEET_LIST_TYPE, tweetListType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +55,7 @@ public class TweetListFragment extends Fragment {
                 .get(TweetViewModel.class);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            tweetListType = getArguments().getInt(Constantes.TWEET_LIST_TYPE);
         }
     }
 
@@ -72,28 +70,59 @@ public class TweetListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.list);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAzul));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                loadNewData();
+                if (tweetListType == Constantes.TWEET_LIST_ALL){
+                    loadNewData();
+                }else if(tweetListType == Constantes.TWEET_LIST_FAVS){
+                    loadNewFavData();
+                }
+
             }
         });
-        if (mColumnCount <= 1) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
 
         adapater = new MyTweetRecyclerViewAdapter(
                 getActivity(),
                 tweetList);
         recyclerView.setAdapter(adapater);
 
+        if (tweetListType == Constantes.TWEET_LIST_ALL){
+            loadTweetData();
+        }else if(tweetListType == Constantes.TWEET_LIST_FAVS){
+            loadFavTweetData();
+        }
 
-        loadTweetData();
+
 
         return view;
+    }
+
+    private void loadNewFavData() {
+            tweetViewModel.getNewFavTweets().observe(getActivity(), new Observer<List<Tweet>>() {
+                @Override
+                public void onChanged(List<Tweet> tweets) {
+                    tweetList = tweets;
+                    swipeRefreshLayout.setRefreshing(false);
+                    adapater.setData(tweetList);
+                    tweetViewModel.getNewFavTweets().removeObserver(this);
+                }
+            });
+    }
+
+    private void loadFavTweetData() {
+        tweetViewModel.getFavTweets().observe(getActivity(), new Observer<List<Tweet>>() {
+            @Override
+            public void onChanged(List<Tweet> tweets) {
+                tweetList = tweets;
+                adapater.setData(tweetList);
+            }
+        });
+
     }
 
 
