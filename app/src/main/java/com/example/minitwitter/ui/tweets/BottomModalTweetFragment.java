@@ -1,4 +1,4 @@
-package com.example.minitwitter.ui;
+package com.example.minitwitter.ui.tweets;
 
 import androidx.lifecycle.ViewModelProviders;
 

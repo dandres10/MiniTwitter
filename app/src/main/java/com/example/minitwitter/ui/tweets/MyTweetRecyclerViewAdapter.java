@@ -1,7 +1,6 @@
-package com.example.minitwitter.ui;
+package com.example.minitwitter.ui.tweets;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
