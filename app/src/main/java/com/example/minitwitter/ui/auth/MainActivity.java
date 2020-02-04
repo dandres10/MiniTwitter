@@ -2,6 +2,7 @@ package com.example.minitwitter.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText etEmail, etPassword;
     MiniTwitterClient miniTwitterClient;
     MiniTwitterService miniTwitterService;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,20 +95,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             RequestLogin requestLogin = new RequestLogin(email, password);
 
 
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Autenticando...");
+            progressDialog.show();
             Call<ResponseAuth> call = miniTwitterService.doLogin(requestLogin);
             call.enqueue(new Callback<ResponseAuth>() {
                 @Override
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Sesion iniciada correctamente.", Toast.LENGTH_LONG).show();
-
                         storeVariablesResponse(response);
 
-
+                        progressDialog.dismiss();
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
-
-
                         finish();
                     } else {
                         Toast.makeText(MainActivity.this, "Algo fue mal revise sus datos de acceso.", Toast.LENGTH_LONG).show();
