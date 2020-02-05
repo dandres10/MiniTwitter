@@ -1,7 +1,31 @@
 package com.example.minitwitter.data;
 
-import androidx.lifecycle.ViewModel;
 
-public class ProfileViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
+
+import com.example.minitwitter.retrofit.response.ResponseUserProfile;
+
+
+public class ProfileViewModel extends AndroidViewModel {
+
+    public ProfileRepository profileRepository;
+    public LiveData<ResponseUserProfile> userProfile;
+
+    public ProfileViewModel(@NonNull Application application) {
+        super(application);
+        profileRepository = new ProfileRepository();
+        userProfile = profileRepository.getProfile();
+
+    }
+
+
+
+
+
+
 }

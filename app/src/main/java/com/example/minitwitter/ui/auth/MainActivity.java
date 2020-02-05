@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Autenticando...");
             progressDialog.show();
+            progressDialog.setCanceledOnTouchOutside(false);
             Call<ResponseAuth> call = miniTwitterService.doLogin(requestLogin);
             call.enqueue(new Callback<ResponseAuth>() {
                 @Override
@@ -106,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, "Sesion iniciada correctamente.", Toast.LENGTH_LONG).show();
                         storeVariablesResponse(response);
 
-                        progressDialog.dismiss();
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
                         finish();
+                        progressDialog.dismiss();
                     } else {
                         Toast.makeText(MainActivity.this, "Algo fue mal revise sus datos de acceso.", Toast.LENGTH_LONG).show();
                     }
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferencesManager
                 .setSomeStringValue(Constantes.PREF_EMAIL, response.body().getEmail());
         SharedPreferencesManager
-                .setSomeStringValue(Constantes.PREF_PHOTOURL,response.body().getPhotoUrl());
+                .setSomeStringValue(Constantes.PREF_PHOTOURL, response.body().getPhotoUrl());
         SharedPreferencesManager
                 .setSomeStringValue(Constantes.PREF_CREATED, response.body().getCreated());
         SharedPreferencesManager
@@ -147,4 +148,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(i);
         finish();
     }
+
+
 }
