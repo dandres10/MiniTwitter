@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.minitwitter.common.MyApp;
 import com.example.minitwitter.retrofit.AuthTwitterClient;
 import com.example.minitwitter.retrofit.AuthTwitterService;
+import com.example.minitwitter.retrofit.request.RequestUserProfile;
 import com.example.minitwitter.retrofit.response.ResponseUserProfile;
 
 import retrofit2.Call;
@@ -52,6 +53,30 @@ public class ProfileRepository {
         });
 
         return userProfile;
+
+
+    }
+
+
+    public void updateProfile(RequestUserProfile requestUserProfile) {
+
+        Call<ResponseUserProfile> call = authTwitterService.updateProfile(requestUserProfile);
+
+        call.enqueue(new Callback<ResponseUserProfile>() {
+            @Override
+            public void onResponse(Call<ResponseUserProfile> call, Response<ResponseUserProfile> response) {
+                if (response.isSuccessful()) {
+                    userProfile.setValue(response.body());
+                } else {
+                    Toast.makeText(MyApp.getContexto(), "Algo a ido mal", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseUserProfile> call, Throwable t) {
+                Toast.makeText(MyApp.getContexto(), "Error en la conexion", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

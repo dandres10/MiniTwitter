@@ -26,6 +26,7 @@ public class DashboardActivity extends AppCompatActivity {
     FloatingActionButton fab;
     ImageView ivAvatar;
 
+
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -79,12 +80,9 @@ public class DashboardActivity extends AppCompatActivity {
                 .add(R.id.fragmentcontainer, TweetListFragment.newInstance(Constantes.TWEET_LIST_ALL))
                 .commit();
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NuevoTweetDialogFragment dialog = new NuevoTweetDialogFragment();
-                dialog.show(getSupportFragmentManager(), "NuevoTweetDialogFragment");
-            }
+        fab.setOnClickListener(v -> {
+            NuevoTweetDialogFragment dialog = new NuevoTweetDialogFragment();
+            dialog.show(getSupportFragmentManager(), "NuevoTweetDialogFragment");
         });
 
         String photoUrl = SharedPreferencesManager.getSomeStringValue(Constantes.PREF_PHOTOURL);

@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 
+import com.example.minitwitter.retrofit.request.RequestUserProfile;
 import com.example.minitwitter.retrofit.response.ResponseUserProfile;
 
 
@@ -21,6 +22,10 @@ public class ProfileViewModel extends AndroidViewModel {
         profileRepository = new ProfileRepository();
         userProfile = profileRepository.getProfile();
 
+    }
+
+    public void updateProfile(RequestUserProfile requestUserProfile){
+        profileRepository.updateProfile(requestUserProfile);
     }
 
 

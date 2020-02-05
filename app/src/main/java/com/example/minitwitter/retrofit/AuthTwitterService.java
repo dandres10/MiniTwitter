@@ -40,7 +40,7 @@ public interface AuthTwitterService {
     Call<ResponseUserProfile> getProfile();
 
     @PUT("users/profile")
-    Call<RequestUserProfile>  updateProfile(@Body ResponseUserProfile responseUserProfile);
+    Call<ResponseUserProfile>  updateProfile(@Body RequestUserProfile requestUserProfile);
 
 
 

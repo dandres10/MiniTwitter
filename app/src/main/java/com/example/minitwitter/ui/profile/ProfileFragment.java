@@ -1,8 +1,9 @@
 package com.example.minitwitter.ui.profile;
 
-import androidx.lifecycle.Observer;
+
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,8 @@ import com.bumptech.glide.Glide;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.ProfileViewModel;
-import com.example.minitwitter.retrofit.response.ResponseUserProfile;
+import com.example.minitwitter.retrofit.request.RequestUserProfile;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -29,6 +31,7 @@ public class ProfileFragment extends Fragment {
     ImageView ivAvatar;
     EditText etUsername, etEmail, etPassword, etWebsite, etDescripcion;
     Button btnSave, btnChangePassword;
+    //ProgressDialog progressDialog;
 
 
     @Override
@@ -46,6 +49,10 @@ public class ProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.profile_fragment, container, false);
 
+        //progressDialog = new ProgressDialog(getContext());
+        //progressDialog.setMessage("Cargando...");
+        //progressDialog.show();
+
         ivAvatar = v.findViewById(R.id.imageViewAvatar);
         etUsername = v.findViewById(R.id.editTextUsername);
         etEmail = v.findViewById(R.id.editTextEmail);
@@ -59,7 +66,31 @@ public class ProfileFragment extends Fragment {
         //Eventos
 
         btnSave.setOnClickListener(view -> {
-            Toast.makeText(getActivity(), "Click on save", Toast.LENGTH_LONG).show();
+            String username = etUsername.getText().toString();
+            String email = etEmail.getText().toString();
+            String descripcion = etDescripcion.getText().toString();
+            String website = etWebsite.getText().toString();
+            String password = etPassword.getText().toString();
+
+            if (username.isEmpty()){
+                etUsername.setError("El nombre de usuario es requerido");
+            }else if(email.isEmpty()){
+                etEmail.setError("El email es requerido");
+            }else if(password.isEmpty()){
+                etPassword.setError("La contraseña es requerida");
+            }else{
+                RequestUserProfile requestUserProfile = new RequestUserProfile(
+                        username,
+                        email,
+                        descripcion,
+                        website,
+                        password);
+
+                profileViewModel.updateProfile(requestUserProfile);
+            }
+
+
+            //btnSave.setEnabled(false);
         });
 
         btnChangePassword.setOnClickListener(view -> {
@@ -67,23 +98,25 @@ public class ProfileFragment extends Fragment {
         });
 
         //ViewModel
-        profileViewModel.userProfile.observe(getActivity(), new Observer<ResponseUserProfile>() {
-            @Override
-            public void onChanged(@Nullable ResponseUserProfile responseUserProfile) {
-                etUsername.setText(!responseUserProfile.getUsername().isEmpty() ? responseUserProfile.getUsername() : "");
-                etEmail.setText(!responseUserProfile.getEmail().isEmpty() ? responseUserProfile.getEmail() : "");
-                etWebsite.setText(!responseUserProfile.getWebsite().isEmpty() ? responseUserProfile.getWebsite() : "");
-                etDescripcion.setText(!responseUserProfile.getDescripcion().isEmpty() ? responseUserProfile.getDescripcion() : "");
-                if (!responseUserProfile.getPhotoUrl().isEmpty()) {
-                    Glide.with(getActivity())
-                            .load(Constantes.API_MINITWITTER_FILES_URL + responseUserProfile.getPhotoUrl())
-                            .into(ivAvatar);
-                } else {
-                    Glide.with(getActivity())
-                            .load(Constantes.FOTO)
-                            .into(ivAvatar);
-                }
+        profileViewModel.userProfile.observe(getActivity(), responseUserProfile -> {
+            etUsername.setText(responseUserProfile.getUsername());
+            etEmail.setText(responseUserProfile.getEmail());
+            etWebsite.setText(responseUserProfile.getWebsite());
+            etDescripcion.setText(responseUserProfile.getDescripcion());
+
+            if (!responseUserProfile.getPhotoUrl().isEmpty()) {
+                Glide.with(getActivity())
+                        .load(Constantes.API_MINITWITTER_FILES_URL + responseUserProfile.getPhotoUrl())
+                        .into(ivAvatar);
+
+
+            } else {
+                Glide.with(getActivity())
+                        .load(Constantes.FOTO)
+                        .into(ivAvatar);
+
             }
+           // progressDialog.dismiss();
         });
 
 
