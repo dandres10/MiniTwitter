@@ -82,7 +82,7 @@ public class DashboardActivity extends AppCompatActivity {
                 .add(R.id.fragmentcontainer, TweetListFragment.newInstance(Constantes.TWEET_LIST_ALL))
                 .commit();
 
-        fab.setOnClickListener(v -> {
+        fab.setOnClickListener(view -> {
             NuevoTweetDialogFragment dialog = new NuevoTweetDialogFragment();
             dialog.show(getSupportFragmentManager(), "NuevoTweetDialogFragment");
         });
