@@ -19,10 +19,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.ProfileViewModel;
 import com.example.minitwitter.retrofit.request.RequestUserProfile;
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 
 public class ProfileFragment extends Fragment {
@@ -33,6 +36,7 @@ public class ProfileFragment extends Fragment {
     Button btnSave, btnChangePassword;
     boolean loading = true;
     //ProgressDialog progressDialog;
+    PermissionListener allPermissionListener;
 
 
     @Override
@@ -99,6 +103,13 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getActivity(), "Click on password", Toast.LENGTH_LONG).show();
         });
 
+
+        ivAvatar.setOnClickListener(view ->{
+            //Invocar a la seleccion de la fotografia
+            //Invocamos al metodo de comprobacion de permiso
+             checkPermissions();
+        });
+
         //ViewModel//onChange//funcion flecha
         profileViewModel.userProfile.observe(getActivity(), responseUserProfile -> {
             loading = false;
@@ -111,12 +122,20 @@ public class ProfileFragment extends Fragment {
             if (!responseUserProfile.getPhotoUrl().isEmpty()) {
                 Glide.with(getActivity())
                         .load(Constantes.API_MINITWITTER_FILES_URL + responseUserProfile.getPhotoUrl())
+                        .dontAnimate()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .centerCrop()
+                        .skipMemoryCache(true)
                         .into(ivAvatar);
 
 
             } else {
                 Glide.with(getActivity())
                         .load(Constantes.FOTO)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .centerCrop()
+                        .skipMemoryCache(true)
+                        .dontAnimate()
                         .into(ivAvatar);
 
             }
@@ -131,6 +150,17 @@ public class ProfileFragment extends Fragment {
 
 
         return v;
+    }
+
+    private void checkPermissions() {
+        PermissionListener dialogOnDeniedPermissionListener = DialogOnDeniedPermissionListener
+                .Builder
+                .withContext(getActivity())
+                .withTitle("Permisos ")
+                .withMessage("Los permisos son necesarios para poder seleccionar una foto de perfil")
+                .withButtonText("Aceptar")
+                .withIcon(R.mipmap.ic_launcher)
+                .build();
     }
 
 

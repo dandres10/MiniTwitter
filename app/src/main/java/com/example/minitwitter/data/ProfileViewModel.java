@@ -24,13 +24,13 @@ public class ProfileViewModel extends AndroidViewModel {
 
     }
 
-    public void updateProfile(RequestUserProfile requestUserProfile){
+    public void updateProfile(RequestUserProfile requestUserProfile) {
         profileRepository.updateProfile(requestUserProfile);
     }
 
-
-
-
+    public void updatePhoto(String photo) {
+        profileRepository.updatePhoto(photo);
+    }
 
 
 }
