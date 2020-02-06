@@ -31,6 +31,7 @@ public class ProfileFragment extends Fragment {
     ImageView ivAvatar;
     EditText etUsername, etEmail, etPassword, etWebsite, etDescripcion;
     Button btnSave, btnChangePassword;
+    boolean loading = true;
     //ProgressDialog progressDialog;
 
 
@@ -72,13 +73,13 @@ public class ProfileFragment extends Fragment {
             String website = etWebsite.getText().toString();
             String password = etPassword.getText().toString();
 
-            if (username.isEmpty()){
+            if (username.isEmpty()) {
                 etUsername.setError("El nombre de usuario es requerido");
-            }else if(email.isEmpty()){
+            } else if (email.isEmpty()) {
                 etEmail.setError("El email es requerido");
-            }else if(password.isEmpty()){
+            } else if (password.isEmpty()) {
                 etPassword.setError("La contraseña es requerida");
-            }else{
+            } else {
                 RequestUserProfile requestUserProfile = new RequestUserProfile(
                         username,
                         email,
@@ -89,20 +90,23 @@ public class ProfileFragment extends Fragment {
                 profileViewModel.updateProfile(requestUserProfile);
             }
 
+            Toast.makeText(getActivity(), "Enviando informacion al servidor...", Toast.LENGTH_SHORT).show();
+            btnSave.setEnabled(false);
 
-            //btnSave.setEnabled(false);
         });
 
         btnChangePassword.setOnClickListener(view -> {
             Toast.makeText(getActivity(), "Click on password", Toast.LENGTH_LONG).show();
         });
 
-        //ViewModel
+        //ViewModel//onChange//funcion flecha
         profileViewModel.userProfile.observe(getActivity(), responseUserProfile -> {
+            loading = false;
             etUsername.setText(responseUserProfile.getUsername());
             etEmail.setText(responseUserProfile.getEmail());
             etWebsite.setText(responseUserProfile.getWebsite());
             etDescripcion.setText(responseUserProfile.getDescripcion());
+
 
             if (!responseUserProfile.getPhotoUrl().isEmpty()) {
                 Glide.with(getActivity())
@@ -116,7 +120,13 @@ public class ProfileFragment extends Fragment {
                         .into(ivAvatar);
 
             }
-           // progressDialog.dismiss();
+
+
+            if (!loading) {
+                btnSave.setEnabled(true);
+                Toast.makeText(getActivity(), "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
+            }
+            // progressDialog.dismiss();
         });
 
 

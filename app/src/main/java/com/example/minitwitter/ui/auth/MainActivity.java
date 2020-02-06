@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
+
                         finish();
+                        progressDialog.dismiss();
 
                     } else {
                         Toast.makeText(MainActivity.this, "Algo fue mal revise sus datos de acceso.", Toast.LENGTH_LONG).show();
