@@ -40,6 +40,11 @@ public class ProfileRepository {
     }
 
 
+    public MutableLiveData<String> getPhotoProfile(){
+        return photoProfile;
+    }
+
+
     public MutableLiveData<ResponseUserProfile> getProfile() {
 
         if (userProfile == null) {

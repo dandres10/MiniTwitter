@@ -1,8 +1,10 @@
 package com.example.minitwitter.ui.profile;
 
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
@@ -24,6 +26,8 @@ import com.example.minitwitter.R;
 import com.example.minitwitter.common.Constantes;
 import com.example.minitwitter.data.ProfileViewModel;
 import com.example.minitwitter.retrofit.request.RequestUserProfile;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.single.CompositePermissionListener;
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 
@@ -42,7 +46,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        profileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
     }
 
     public static ProfileFragment newInstance() {
@@ -149,6 +153,25 @@ public class ProfileFragment extends Fragment {
         });
 
 
+
+        profileViewModel.photoProfile.observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String photo) {
+                if (!photo.isEmpty()) {
+                    Glide.with(getActivity())
+                            .load(Constantes.API_MINITWITTER_FILES_URL + photo)
+                            .dontAnimate()
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .centerCrop()
+                            .skipMemoryCache(true)
+                            .into(ivAvatar);
+
+                }
+
+            }
+        });
+
+
         return v;
     }
 
@@ -161,6 +184,15 @@ public class ProfileFragment extends Fragment {
                 .withButtonText("Aceptar")
                 .withIcon(R.mipmap.ic_launcher)
                 .build();
+
+        allPermissionListener = new CompositePermissionListener(
+                (PermissionListener) getActivity(),
+                dialogOnDeniedPermissionListener);
+
+        Dexter.withActivity(getActivity())
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(allPermissionListener)
+                .check();
     }
 
 
